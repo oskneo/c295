@@ -1,0 +1,19 @@
+{
+  "logger": {
+    "title": "Remote Sync"
+  },
+  "uploadOnSave": false,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "csil-cpu1.csil.sfu.ca",
+  "port": "24",
+  "target": "/home/gza21/sfuhome/cmpt295",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "username": "gza21",
+  "password": "osk131238",
+  "watch": [],
+  "transport": "scp"
+}
