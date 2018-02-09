@@ -6,6 +6,5 @@ char *cvt2bitstr(bit16 x, char* str) {
         x = (x << 1) & 0xffff;
     }
     str[16] = '\0';
-    return;
+    return str;
 }
-
