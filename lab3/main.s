@@ -6,17 +6,6 @@
 	.p2align 4,,15
 	.globl	get_byte_by_order
 	.type	get_byte_by_order, @function
-get_byte_by_addr:
-	movl	(%rdi), %edx
-	movl	$0xff, %r9d
-	movl	$3, %ecx
-	subl	%esi, %ecx
-	imul	$8, %ecx
-	shl	%cl, %r9d
-	andl	%r9d, %edx
-	shr	%cl, %edx
-	movl	%edx, %eax
-	ret
 
 get_byte_by_order:
 .LFB23:
