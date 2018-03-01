@@ -3,32 +3,37 @@
 	.align 8
 .LC0:
 	.string	"It took %ld microseconds to initialize the array.\n"
+	.section	.text.unlikely,"ax",@progbits
+.LCOLDB1:
 	.section	.text.startup,"ax",@progbits
+.LHOTB1:
 	.p2align 4,,15
 	.globl	main
 	.type	main, @function
 main:
-.LFB39:
+.LFB38:
 	.cfi_startproc
 	pushq	%r13
 	.cfi_def_cfa_offset 16
 	.cfi_offset 13, -16
-	xorl	%edi, %edi
-	xorl	%eax, %eax
 	pushq	%r12
 	.cfi_def_cfa_offset 24
 	.cfi_offset 12, -24
-	movl	$A+4, %r12d
+	xorl	%edi, %edi
 	pushq	%rbp
 	.cfi_def_cfa_offset 32
 	.cfi_offset 6, -32
-	movl	$1374389535, %ebp
 	pushq	%rbx
 	.cfi_def_cfa_offset 40
 	.cfi_offset 3, -40
-	movl	$1, %ebx
-	subq	$296, %rsp
-	.cfi_def_cfa_offset 336
+	movl	$A+4, %r12d
+	movl	$1, %ebp
+	movl	$1374389535, %ebx
+	subq	$888, %rsp
+	.cfi_def_cfa_offset 928
+	movq	%fs:40, %rax
+	movq	%rax, 872(%rsp)
+	xorl	%eax, %eax
 	call	time
 	movl	%eax, %edi
 	call	srand
@@ -38,12 +43,12 @@ main:
 	movl	$0, A(%rip)
 	.p2align 4,,10
 	.p2align 3
-.L3:
-	movl	%ebx, %eax
+.L2:
+	movl	%ebp, %eax
 	addq	$4, %r12
-	imull	%ebp
-	movl	%ebx, %eax
-	addl	$1, %ebx
+	imull	%ebx
+	movl	%ebp, %eax
+	addl	$1, %ebp
 	sarl	$31, %eax
 	sarl	$5, %edx
 	subl	%eax, %edx
@@ -53,10 +58,8 @@ main:
 	call	rand
 	movslq	%r13d, %rcx
 	movl	%r13d, %edx
-	movl	%eax, %esi
 	imulq	$-2147418109, %rcx, %rcx
 	sarl	$31, %edx
-	sarl	$31, %esi
 	shrq	$32, %rcx
 	addl	%r13d, %ecx
 	sarl	$14, %ecx
@@ -67,37 +70,76 @@ main:
 	movslq	%eax, %rcx
 	imulq	$-2147450879, %rcx, %rcx
 	subl	%edx, %r13d
-	movl	%r13d, %edx
-	sall	$16, %edx
+	cltd
+	sall	$16, %r13d
 	shrq	$32, %rcx
 	addl	%eax, %ecx
 	sarl	$15, %ecx
-	subl	%esi, %ecx
-	movl	%ecx, %esi
-	sall	$16, %esi
-	subl	%ecx, %esi
-	subl	%esi, %eax
-	orl	%eax, %edx
-	movl	%edx, %eax
+	subl	%edx, %ecx
+	movl	%ecx, %edx
+	sall	$16, %edx
+	subl	%ecx, %edx
+	subl	%edx, %eax
+	orl	%r13d, %eax
 	cltd
-	idivl	%ebx
+	idivl	%ebp
 	movl	-4(%r12), %eax
 	movslq	%edx, %rdx
 	movl	A(,%rdx,4), %ecx
 	movl	%ecx, -4(%r12)
-	cmpl	$1000000, %ebx
+	cmpl	$1000000, %ebp
 	movl	%eax, A(,%rdx,4)
-	jne	.L3
+	jne	.L2
+	leaq	432(%rsp), %rsi
+	xorl	%edi, %edi
+	call	getrusage
+	movq	456(%rsp), %rdx
+	addq	440(%rsp), %rdx
+	movl	$.LC0, %esi
+	subq	8(%rsp), %rdx
+	movl	$1, %edi
+	xorl	%eax, %eax
+	subq	24(%rsp), %rdx
+	call	__printf_chk
 	leaq	144(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movq	152(%rsp), %rdx
-	subq	8(%rsp), %rdx
+	movl	$1000000, %esi
+	movl	$A, %edi
+	call	qsort295_1
+	leaq	576(%rsp), %rsi
+	xorl	%edi, %edi
+	call	getrusage
+	movq	600(%rsp), %rdx
+	addq	584(%rsp), %rdx
 	movl	$.LC0, %esi
+	subq	152(%rsp), %rdx
 	movl	$1, %edi
 	xorl	%eax, %eax
+	subq	168(%rsp), %rdx
 	call	__printf_chk
-	addq	$296, %rsp
+	leaq	288(%rsp), %rsi
+	xorl	%edi, %edi
+	call	getrusage
+	movl	$1000000, %esi
+	movl	$A, %edi
+	call	qsort295_2
+	leaq	720(%rsp), %rsi
+	xorl	%edi, %edi
+	call	getrusage
+	movq	744(%rsp), %rdx
+	addq	728(%rsp), %rdx
+	xorl	%eax, %eax
+	subq	296(%rsp), %rdx
+	movl	$.LC0, %esi
+	movl	$1, %edi
+	subq	312(%rsp), %rdx
+	call	__printf_chk
+	movq	872(%rsp), %rax
+	xorq	%fs:40, %rax
+	jne	.L7
+	addq	$888, %rsp
+	.cfi_remember_state
 	.cfi_def_cfa_offset 40
 	popq	%rbx
 	.cfi_def_cfa_offset 32
@@ -108,9 +150,16 @@ main:
 	popq	%r13
 	.cfi_def_cfa_offset 8
 	ret
+.L7:
+	.cfi_restore_state
+	call	__stack_chk_fail
 	.cfi_endproc
-.LFE39:
+.LFE38:
 	.size	main, .-main
+	.section	.text.unlikely
+.LCOLDE1:
+	.section	.text.startup
+.LHOTE1:
 	.comm	A,4000000,32
-	.ident	"GCC: (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4"
+	.ident	"GCC: (Ubuntu 5.4.1-2ubuntu1~16.04) 5.4.1 20160904"
 	.section	.note.GNU-stack,"",@progbits

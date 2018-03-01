@@ -16,8 +16,8 @@ void main () {
     int i;
     int pos;
     int tmp;
-    struct rusage start;
-    struct rusage end;
+    struct rusage start,start1,start2;
+    struct rusage end,end1,end2;
 
     getrusage(RUSAGE_SELF, &start);
     A[i] = 0;
@@ -29,11 +29,18 @@ void main () {
         A[pos] = tmp;
     }
     getrusage(RUSAGE_SELF, &end);
-    printf("It took %ld microseconds to initialize the array.\n", end.ru_utime.tv_usec - start.ru_utime.tv_usec);
+    printf("It took %ld microseconds to initialize the array.\n", end.ru_utime.tv_usec + end.ru_stime.tv_usec - start.ru_utime.tv_usec - start.ru_stime.tv_usec);
 
     // For Part 2:
     // 
-    // qsort295_1(A, N);
-    // qsort295_2(A, N);
+    getrusage(RUSAGE_SELF, &start1);
+    qsort295_1(A, N);
+    getrusage(RUSAGE_SELF, &end1);
+    printf("It took %ld microseconds to initialize the array.\n", end1.ru_utime.tv_usec + end1.ru_stime.tv_usec - start1.ru_utime.tv_usec - start1.ru_stime.tv_usec);
+
+    getrusage(RUSAGE_SELF, &start2);
+    qsort295_2(A, N);
+    getrusage(RUSAGE_SELF, &end2);
+    printf("It took %ld microseconds to initialize the array.\n", end2.ru_utime.tv_usec + end2.ru_stime.tv_usec - start2.ru_utime.tv_usec - start2.ru_stime.tv_usec);
 }
 
