@@ -87,53 +87,53 @@ main:
 	movslq	%edx, %rdx
 	movl	A(,%rdx,4), %ecx
 	movl	%ecx, -4(%r12)
-	cmpl	$1000000, %ebp
+	cmpl	$16000000, %ebp
 	movl	%eax, A(,%rdx,4)
 	jne	.L2
 	leaq	432(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movq	456(%rsp), %rdx
-	addq	440(%rsp), %rdx
+	movq	432(%rsp), %rdx
+	subq	(%rsp), %rdx
 	movl	$.LC0, %esi
-	subq	8(%rsp), %rdx
 	movl	$1, %edi
 	xorl	%eax, %eax
-	subq	24(%rsp), %rdx
+	imulq	$1000000, %rdx, %rdx
+	addq	440(%rsp), %rdx
+	subq	8(%rsp), %rdx
 	call	__printf_chk
 	leaq	144(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movl	$1000000, %esi
+	movl	$16000000, %esi
 	movl	$A, %edi
 	call	qsort295_1
 	leaq	576(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movq	600(%rsp), %rdx
-	addq	584(%rsp), %rdx
+	movq	576(%rsp), %rdx
+	subq	144(%rsp), %rdx
 	movl	$.LC0, %esi
-	subq	152(%rsp), %rdx
 	movl	$1, %edi
 	xorl	%eax, %eax
-	subq	168(%rsp), %rdx
+	imulq	$1000000, %rdx, %rdx
+	addq	584(%rsp), %rdx
+	subq	152(%rsp), %rdx
 	call	__printf_chk
 	leaq	288(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movl	$1000000, %esi
-	movl	$A, %edi
-	call	qsort295_2
 	leaq	720(%rsp), %rsi
 	xorl	%edi, %edi
 	call	getrusage
-	movq	744(%rsp), %rdx
-	addq	728(%rsp), %rdx
+	movq	720(%rsp), %rdx
+	subq	288(%rsp), %rdx
 	xorl	%eax, %eax
-	subq	296(%rsp), %rdx
 	movl	$.LC0, %esi
 	movl	$1, %edi
-	subq	312(%rsp), %rdx
+	imulq	$1000000, %rdx, %rdx
+	addq	728(%rsp), %rdx
+	subq	296(%rsp), %rdx
 	call	__printf_chk
 	movq	872(%rsp), %rax
 	xorq	%fs:40, %rax
@@ -160,6 +160,6 @@ main:
 .LCOLDE1:
 	.section	.text.startup
 .LHOTE1:
-	.comm	A,4000000,32
+	.comm	A,64000000,32
 	.ident	"GCC: (Ubuntu 5.4.1-2ubuntu1~16.04) 5.4.1 20160904"
 	.section	.note.GNU-stack,"",@progbits

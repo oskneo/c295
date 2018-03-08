@@ -19,19 +19,23 @@
 main:
 .LFB38:
 	.cfi_startproc
-	pushq	%rbp
+	pushq	%r13
 	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	pushq	%rbx
+	.cfi_offset 13, -16
+	pushq	%r12
 	.cfi_def_cfa_offset 24
-	.cfi_offset 3, -24
+	.cfi_offset 12, -24
 	xorl	%edi, %edi
-	movl	$A, %ebx
-	subq	$312, %rsp
-	.cfi_def_cfa_offset 336
-	movq	%fs:40, %rax
-	movq	%rax, 296(%rsp)
+	pushq	%rbp
+	.cfi_def_cfa_offset 32
+	.cfi_offset 6, -32
+	pushq	%rbx
+	.cfi_def_cfa_offset 40
+	.cfi_offset 3, -40
 	xorl	%eax, %eax
+	movl	$A, %ebx
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 48
 	call	time
 	movl	%eax, %edi
 	call	srand
@@ -54,78 +58,107 @@ main:
 	addq	$4, %rbx
 	cmpq	$A+400, %rbx
 	jne	.L3
-	movl	$cycles, %ebx
-	movq	%rbx, %rbp
+	movl	$cycles, %r12d
+	movq	%r12, %rbp
 	.p2align 4,,10
 	.p2align 3
-.L6:
-	xorl	%edi, %edi
-	movq	%rsp, %rsi
-	call	getrusage
-	movl	$100, %esi
+.L5:
+#APP
+# 40 "main.c" 1
+	cpuid
+	rdtscp
+	movl %eax, %esi
+	
+# 0 "" 2
+#NO_APP
 	movl	$A, %edi
+	movl	%esi, start_time(%rip)
+	movl	$100, %esi
 	call	sum_plus
-	leaq	144(%rsp), %rsi
-	xorl	%edi, %edi
+	movl	%eax, %edi
 	movl	%eax, P(%rip)
-	call	getrusage
-	movq	144(%rsp), %rax
-	subq	(%rsp), %rax
-	imull	$10000000, %eax, %eax
-	subl	8(%rsp), %eax
-	addl	152(%rsp), %eax
-	movl	%eax, 0(%rbp)
-	movl	Q(%rip), %eax
-	cmpl	%eax, P(%rip)
+#APP
+# 51 "main.c" 1
+	cpuid
+	rdtscp
+	movl %eax, %esi
+	
+# 0 "" 2
+#NO_APP
+	movl	%esi, end_time(%rip)
+	subl	start_time(%rip), %esi
+	cmpl	Q(%rip), %edi
+	movl	%esi, 0(%rbp)
 	jne	.L14
 	addq	$4, %rbp
 	cmpq	$cycles+80, %rbp
-	jne	.L6
+	jne	.L5
 	movq	$0, total(%rip)
+	movl	$1, %ebx
 	xorl	%ebp, %ebp
+	jmp	.L8
 	.p2align 4,,10
 	.p2align 3
-.L7:
-	movl	(%rbx), %ecx
+.L6:
 	addl	$1, %ebp
+	movl	%ebx, %r13d
+	addq	$4, %r12
+	leal	19(%rbp), %eax
+	addl	$1, %ebx
+	cmpl	%r13d, %eax
+	jl	.L15
+.L8:
+	movl	(%r12), %ecx
+	cmpl	$4000, %ecx
+	jg	.L6
+	movl	%ebx, %edx
 	xorl	%eax, %eax
-	movl	%ebp, %edx
 	movl	$.LC1, %esi
 	movl	$1, %edi
-	addq	$4, %rbx
+	movl	%ebx, %r13d
+	addq	$4, %r12
 	call	__printf_chk
-	movslq	-4(%rbx), %rax
-	addq	total(%rip), %rax
-	cmpl	$20, %ebp
-	movq	%rax, total(%rip)
-	jne	.L7
+	movslq	-4(%r12), %rax
+	addl	$1, %ebx
+	addq	%rax, total(%rip)
+	leal	19(%rbp), %eax
+	cmpl	%r13d, %eax
+	jge	.L8
+.L15:
+	movq	total(%rip), %rax
 	movl	$20, %ecx
-	cqto
 	movl	$.LC2, %esi
-	idivq	%rcx
 	movl	$1, %edi
+	cqto
+	idivq	%rcx
+	popq	%rcx
+	.cfi_remember_state
+	.cfi_def_cfa_offset 40
+	popq	%rbx
+	.cfi_def_cfa_offset 32
+	popq	%rbp
+	.cfi_def_cfa_offset 24
+	popq	%r12
+	.cfi_def_cfa_offset 16
+	popq	%r13
+	.cfi_def_cfa_offset 8
 	movq	%rax, %rdx
 	xorl	%eax, %eax
-	call	__printf_chk
-.L1:
-	movq	296(%rsp), %rax
-	xorq	%fs:40, %rax
-	jne	.L15
-	addq	$312, %rsp
-	.cfi_remember_state
-	.cfi_def_cfa_offset 24
-	popq	%rbx
-	.cfi_def_cfa_offset 16
-	popq	%rbp
-	.cfi_def_cfa_offset 8
-	ret
+	jmp	__printf_chk
 .L14:
 	.cfi_restore_state
+	popq	%rsi
+	.cfi_def_cfa_offset 40
+	popq	%rbx
+	.cfi_def_cfa_offset 32
+	popq	%rbp
+	.cfi_def_cfa_offset 24
+	popq	%r12
+	.cfi_def_cfa_offset 16
+	popq	%r13
+	.cfi_def_cfa_offset 8
 	movl	$.LC0, %edi
-	call	perror
-	jmp	.L1
-.L15:
-	call	__stack_chk_fail
+	jmp	perror
 	.cfi_endproc
 .LFE38:
 	.size	main, .-main
