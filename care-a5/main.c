@@ -27,7 +27,7 @@ void main () {
     float arr1[24], arr2[50];
     float tot1, tot2;
     int i;
-
+    //
     //.-.-.-.-.-.-.-.-.-.-.-.-.-.//
     //. . .   Test case 1   . . .//
     //.-.-.-.-.-.-.-.-.-.-.-.-.-.//
@@ -73,6 +73,8 @@ void main () {
     f_printbits(sum_float(arr2, 50)); putchar('\n');
 
     puts("");
+    
+    
     return;
 }
 
