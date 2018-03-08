@@ -7,7 +7,7 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-#define N 1000000
+#define N 16000000
 
 int A[N];
 
@@ -29,18 +29,17 @@ void main () {
         A[pos] = tmp;
     }
     getrusage(RUSAGE_SELF, &end);
-    printf("It took %ld microseconds to initialize the array.\n", end.ru_utime.tv_usec + end.ru_stime.tv_usec - start.ru_utime.tv_usec - start.ru_stime.tv_usec);
+    printf("It took %ld microseconds to initialize the array.\n", (end.ru_utime.tv_sec - start.ru_utime.tv_sec) * 1000000 + end.ru_utime.tv_usec - start.ru_utime.tv_usec);
 
     // For Part 2:
     // 
     getrusage(RUSAGE_SELF, &start1);
     qsort295_1(A, N);
     getrusage(RUSAGE_SELF, &end1);
-    printf("It took %ld microseconds to initialize the array.\n", end1.ru_utime.tv_usec + end1.ru_stime.tv_usec - start1.ru_utime.tv_usec - start1.ru_stime.tv_usec);
+    printf("It took %ld microseconds to initialize the array.\n", (end1.ru_utime.tv_sec - start1.ru_utime.tv_sec) * 1000000 + end1.ru_utime.tv_usec - start1.ru_utime.tv_usec);
 
     getrusage(RUSAGE_SELF, &start2);
-    qsort295_2(A, N);
+    //qsort295_2(A, N);
     getrusage(RUSAGE_SELF, &end2);
-    printf("It took %ld microseconds to initialize the array.\n", end2.ru_utime.tv_usec + end2.ru_stime.tv_usec - start2.ru_utime.tv_usec - start2.ru_stime.tv_usec);
-}
+printf("It took %ld microseconds to initialize the array.\n", (end2.ru_utime.tv_sec - start2.ru_utime.tv_sec) * 1000000 + end2.ru_utime.tv_usec - start2.ru_utime.tv_usec);}
 
