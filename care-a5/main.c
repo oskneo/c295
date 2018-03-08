@@ -73,7 +73,7 @@ void main () {
     f_printbits(sum_float(arr2, 50)); putchar('\n');
 
     puts("");
-    
+    //
     
     return;
 }
