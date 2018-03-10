@@ -87,10 +87,10 @@ main:
 	pushq	%rbx
 	.cfi_def_cfa_offset 56
 	.cfi_offset 3, -56
-	subq	$776, %rsp
-	.cfi_def_cfa_offset 832
+	subq	$3576, %rsp
+	.cfi_def_cfa_offset 3632
 	movq	%fs:40, %rax
-	movq	%rax, 760(%rsp)
+	movq	%rax, 3560(%rsp)
 	xorl	%eax, %eax
 	movq	$lsearch_1, 304(%rsp)
 	movq	$lsearch_2, 312(%rsp)
@@ -155,11 +155,11 @@ main:
 	movl	%ecx, 0(%rbp)
 	movl	%eax, A(,%rdx,4)
 	addq	$4, %rbp
-	cmpl	$5000000, %ebx
+	cmpl	$20000000, %ebx
 	jne	.L9
 	movl	$A, %eax
-	movl	20000000(%rax), %r14d
-	movl	19999996(%rax), %r15d
+	movl	80000000(%rax), %r14d
+	movl	79999996(%rax), %r15d
 	movl	$.LC1, %edi
 	call	puts
 	leaq	304(%rsp), %r13
@@ -185,26 +185,26 @@ main:
 	movl	$0, %ebx
 .L13:
 	movl	%ebx, %edx
-	movl	$5000000, %esi
+	movl	$20000000, %esi
 	movl	$A, %edi
 	call	*0(%r13)
 	movl	%eax, (%r12,%rbx,4)
 	movl	$A, %eax
-	cmpl	20000000(%rax), %r14d
+	cmpl	80000000(%rax), %r14d
 	je	.L10
 	movl	$.LC3, %edi
 	call	perror
 	jmp	.L8
 .L10:
 	movl	$A, %eax
-	cmpl	19999996(%rax), %r15d
+	cmpl	79999996(%rax), %r15d
 	je	.L12
 	movl	$.LC4, %edi
 	call	perror
 	jmp	.L8
 .L12:
 	addq	$1, %rbx
-	cmpq	$50, %rbx
+	cmpq	$400, %rbx
 	jne	.L13
 	leaq	160(%rsp), %rsi
 	movl	$0, %edi
@@ -221,7 +221,7 @@ main:
 	movl	$0, %eax
 	call	__printf_chk
 	addq	$8, %r13
-	addq	$200, %r12
+	addq	$1600, %r12
 	cmpl	$2, %ebx
 	jne	.L22
 	movl	8(%rsp), %edx
@@ -234,25 +234,25 @@ main:
 	movq	$0, 328(%rsp)
 	movq	$0, 336(%rsp)
 	movq	$0, 344(%rsp)
-	leaq	552(%rsp), %r8
+	leaq	1952(%rsp), %r8
 	jmp	.L15
 .L18:
 	movl	(%rsi), %ecx
 	cmpl	$-1, %ecx
 	jne	.L16
 	addq	$1, (%rax)
-	addq	$5000000, (%rdx)
+	addq	$20000000, (%rdx)
 	jmp	.L17
 .L16:
 	movslq	%ecx, %rcx
 	addq	%rcx, (%rdx)
 .L17:
-	addq	$200, %rsi
+	addq	$1600, %rsi
 	addq	$8, %rax
 	addq	$8, %rdx
 	cmpq	%rdi, %rax
 	jne	.L18
-	movl	200(%rbp), %eax
+	movl	1600(%rbp), %eax
 	cmpl	%eax, 0(%rbp)
 	je	.L19
 	movl	$.LC7, %edi
@@ -282,12 +282,12 @@ main:
 	movl	$0, %eax
 	call	__printf_chk
 .L8:
-	movq	760(%rsp), %rax
+	movq	3560(%rsp), %rax
 	xorq	%fs:40, %rax
 	je	.L21
 	call	__stack_chk_fail
 .L21:
-	addq	$776, %rsp
+	addq	$3576, %rsp
 	.cfi_def_cfa_offset 56
 	popq	%rbx
 	.cfi_def_cfa_offset 48
@@ -305,6 +305,6 @@ main:
 	.cfi_endproc
 .LFE38:
 	.size	main, .-main
-	.comm	A,20000000,32
+	.comm	A,80000000,32
 	.ident	"GCC: (Ubuntu 5.4.1-2ubuntu1~16.04) 5.4.1 20160904"
 	.section	.note.GNU-stack,"",@progbits
