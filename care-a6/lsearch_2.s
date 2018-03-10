@@ -1,34 +1,35 @@
-	.file	"lsearch_2.c"
-	.text
 	.globl	lsearch_2
-	.type	lsearch_2, @function
 lsearch_2:
-.LFB0:
-	.cfi_startproc
-	movl	$-1, %eax
 	testl	%esi, %esi
-	jle	.L2
-	cmpl	(%rdi), %edx
-	je	.L6
-	addq	$4, %rdi
-	movl	$0, %eax
-	jmp	.L3
-.L4:
-	addq	$4, %rdi
-	cmpl	%edx, -4(%rdi)
-	je	.L2
-.L3:
-	addl	$1, %eax
-	cmpl	%eax, %esi
-	jne	.L4
+	jle	emptyarray	#if (n<=0)
+	movslq	%esi, %rax
+	leaq	-4(%rdi,%rax,4), %rax	
+	movl	(%rax), %r9d	#int tmp=A[n-1];
+	movl	%edx, (%rax)	#A[n-1]=target;
+	cmpl	%edx, (%rdi)
+	je	foundinfirst	
+	#it is used to skip the loop if found in the first element
+	movl	$0, %ecx	#int i=0;
+loop:
+	addl	$1, %ecx	#i++;
+	movslq	%ecx, %r8
+	cmpl	%edx, (%rdi,%r8,4)	#while(A[i]!=target)
+	jne	loop
+	jmp	endloop
+foundinfirst:
+	movl	$0, %ecx
+endloop:
+	movl	%r9d, (%rax)	#A[n-1]=tmp;
+	leal	-1(%rsi), %eax	
+	cmpl	%ecx, %eax	
+	jg	found	#if(i<n-1)
+	cmpl	%edx, %r9d	#else if(A[n-1]==target)
+	movl	$-1, %edx	#else{return -1;}
+	cmovne	%edx, %eax	#return n-1;
+	ret	
+emptyarray:
 	movl	$-1, %eax
-	ret
-.L6:
-	movl	$0, %eax
-.L2:
-	rep ret
-	.cfi_endproc
-.LFE0:
-	.size	lsearch_2, .-lsearch_2
-	.ident	"GCC: (Ubuntu 5.4.1-2ubuntu1~16.04) 5.4.1 20160904"
-	.section	.note.GNU-stack,"",@progbits
+	ret		#return -1;
+found:
+	movl	%ecx, %eax
+	ret	#return i
