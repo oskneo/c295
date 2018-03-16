@@ -5,7 +5,7 @@
 
 
 
-#define N 150
+#define N 200
 
 
 

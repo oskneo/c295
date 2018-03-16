@@ -71,7 +71,7 @@ main:
 	movl	%ecx, A(,%rbx,4)
 	addq	$1, %rbx
 	movl	%eax, A(,%rdx,4)
-	cmpq	$150, %rbx
+	cmpq	$200, %rbx
 	jne	.L3
 	movl	$A, %ebx
 	.p2align 4,,10
@@ -81,7 +81,7 @@ main:
 	movq	%rbp, %rdi
 	addq	$4, %rbx
 	call	appendLL
-	cmpq	$A+600, %rbx
+	cmpq	$A+800, %rbx
 	jne	.L5
 	xorl	%r12d, %r12d
 	.p2align 4,,10
@@ -98,7 +98,7 @@ main:
 	movl	$A, %edi
 	movl	%esi, start_time(%rip)
 	movl	%r12d, %edx
-	movl	$150, %esi
+	movl	$200, %esi
 	call	lsearch
 	movslq	%r12d, %rsi
 	movl	%eax, P(,%rsi,4)
@@ -118,7 +118,7 @@ main:
 	setge	%al
 	subl	%eax, %r12d
 	addl	$1, %r12d
-	cmpl	$299, %r12d
+	cmpl	$399, %r12d
 	jle	.L8
 	movl	$cycles, %edx
 	xorl	%ecx, %ecx
@@ -128,17 +128,18 @@ main:
 	movslq	(%rdx), %rax
 	addq	$4, %rdx
 	addq	%rax, %rcx
-	cmpq	$cycles+1200, %rdx
+	cmpq	$cycles+1600, %rdx
 	jne	.L10
 	movq	%rcx, %rax
-	movabsq	$7870610804782742023, %rdx
+	movabsq	$-6640827866535438581, %rdx
 	movq	%rcx, total(%rip)
 	imulq	%rdx
-	sarq	$63, %rcx
 	movl	$1, %edi
 	movl	$.LC0, %esi
 	xorl	%eax, %eax
-	sarq	$7, %rdx
+	addq	%rcx, %rdx
+	sarq	$63, %rcx
+	sarq	$8, %rdx
 	subq	%rcx, %rdx
 	call	__printf_chk
 	popq	%rbx
@@ -166,9 +167,9 @@ end_time:
 start_time:
 	.long	150
 	.comm	total,8,8
-	.comm	cycles,1200,32
-	.comm	Q,1200,32
-	.comm	P,1200,32
-	.comm	A,600,32
+	.comm	cycles,1600,32
+	.comm	Q,1600,32
+	.comm	P,1600,32
+	.comm	A,800,32
 	.ident	"GCC: (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4"
 	.section	.note.GNU-stack,"",@progbits
