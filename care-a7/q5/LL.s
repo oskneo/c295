@@ -54,6 +54,7 @@ lsearch:
 	movl	4(%rdi), %ecx
 	addq	$4, %rdi
 	movl -8(%rdi), %r8d
+	
 	cmpl	%edx, %ecx
 	je	.L14
 .L18:
